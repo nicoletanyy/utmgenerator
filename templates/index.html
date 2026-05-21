@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTM Generator - Create Trackable Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #00000 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: #252525;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result h3 {
+            color: #166534;
+font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .result a {
+            color: #667eea;
+            word-break: break-all;
+            display: block;
+            margin: 10px 0;
+        }
+        
+        .copy-btn {
+            background: #f3f4f6;
+            color: #252525;
+            padding: 8px 16px;
+            margin-top: 10px;
+            width: auto;
+        }
+        
+        .preview {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+            
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 UTM Link Generator + Tracker</h1>
+        </div>
+        
+               
+
+        <div class="card">
+            <h2>✨ Enter Your Link Details</h2>
+            <form id="utmForm">
+                <div class="form-group">
+                    <label>🔗 Destination URL *</label>
+                    <input type="url" id="url" placeholder="https://www.philips.co.uk/healthcare/event/upcoming/imaging-and-oncology-event-2026" required>
+                    <div class="help-text">The webpage you want to track</div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label>📢 Source (utm_source)</label>
+                        <input type="text" id="utm_source" placeholder="google, instagram, linkedin">
+                        <div class="help-text">Where the traffic comes from</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📊 Medium (utm_medium)</label>
+                        <input type="text" id="utm_medium" placeholder="email, paid_social">
+                        <div class="help-text">Marketing channel</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🎯 Campaign (utm_campaign)</label>
+                        <input type="text" id="utm_campaign" placeholder="event, product_launch">
+                        <div class="help-text">Campaign name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🔑 Term (utm_term)</label>
+                        <input type="text" id="utm_term" placeholder="UKIO, EuroPCR">
+                        <div class="help-text">Keywords/Identifiers</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📝 Content (utm_content)</label>
+                        <input type="text" id="utm_content" placeholder="ad id, sidebar_ad">
+                        <div class="help-text">To help you differentiate the content</div>
+                    </div>
+                </div>
+                
+                <button type="submit">🚀 Generate UTM Link</button>
+ <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                  
+                </div>
+
+            </form>
+            
+<div id="result" class="result">
+    <h3>✅ Your link is ready:</h3>
+  <div class="link-container">
+        <div class="link-label">🔗 Short URL (click to track)</div>
+        <div class="link-value">
+            <a href="#" id="shortUrl" target="_blank" style="color: #667eea; word-break: break-all;"></a>
+            <button class="copy-btn" onclick="copyShortUrl()" style="background: #667eea; padding: 8px 16px; width: auto; font-size: 12px;">📋 Copy</button>
+        </div>
+    </div>
+    <div class="link-container">
+        <div class="link-label">📝 Full UTM Link</div>
+        <div class="link-value">
+            <span id="fullUrl" style="font-size: 12px; word-break: break-all;"></span>
+            <button class="copy-btn" onclick="copyFullUrl()" style="background: #667eea; padding: 8px 16px; width: auto; font-size: 12px;">📋 Copy</button>
+        </div>
+    </div>
+</div>
+
+        <div class="card">
+            <h3>📖 What are UTM Parameters?</h3>
+            <p style="margin-top: 10px; line-height: 1.6;">
+                UTM parameters are tags added to URLs that help you track where your traffic comes from in Google Analytics.
+                <br>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = window.location.origin;
+        
+        // Preview URL as user types
+        function previewUrl() {
+            const baseUrl = document.getElementById('url').value;
+            const params = [];
+            
+            if (document.getElementById('utm_source').value) {
+                params.push(`utm_source=${encodeURIComponent(document.getElementById('utm_source').value)}`);
+            }
+            if (document.getElementById('utm_medium').value) {
+                params.push(`utm_medium=${encodeURIComponent(document.getElementById('utm_medium').value)}`);
+            }
+            if (document.getElementById('utm_campaign').value) {
+                params.push(`utm_campaign=${encodeURIComponent(document.getElementById('utm_campaign').value)}`);
+            }
+            if (document.getElementById('utm_term').value) {
+                params.push(`utm_term=${encodeURIComponent(document.getElementById('utm_term').value)}`);
+            }
+            if (document.getElementById('utm_content').value) {
+                params.push(`utm_content=${encodeURIComponent(document.getElementById('utm_content').value)}`);
+            }
+            
+            if (baseUrl && params.length > 0) {
+                const separator = baseUrl.includes('?') ? '&' : '?';
+                document.getElementById('previewUrl').textContent = `${baseUrl}${separator}${params.join('&')}`;
+            } else if (baseUrl) {
+                document.getElementById('previewUrl').textContent = baseUrl;
+            } else {
+                document.getElementById('previewUrl').textContent = 'Enter a URL to see preview';
+            }
+        }
+        
+        // Listen to all input changes for preview
+        document.getElementById('url').addEventListener('input', previewUrl);
+        document.getElementById('utm_source').addEventListener('input', previewUrl);
+        document.getElementById('utm_medium').addEventListener('input', previewUrl);
+        document.getElementById('utm_campaign').addEventListener('input', previewUrl);
+        document.getElementById('utm_term').addEventListener('input', previewUrl);
+        document.getElementById('utm_content').addEventListener('input', previewUrl);
+        
+// Generate UTM link
+document.getElementById('utmForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const data = {
+        url: document.getElementById('url').value,
+        utm_source: document.getElementById('utm_source').value,
+        utm_medium: document.getElementById('utm_medium').value,
+        utm_campaign: document.getElementById('utm_campaign').value,
+        utm_term: document.getElementById('utm_term').value,
+        utm_content: document.getElementById('utm_content').value
+    };
+    
+    try {
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        console.log('API Response:', result); // Debug: See what's returned
+        
+        // Set the short URL
+        const shortUrlElement = document.getElementById('shortUrl');
+        if (shortUrlElement && result.short_url) {
+            shortUrlElement.href = result.short_url;
+            shortUrlElement.textContent = result.short_url;
+        } else {
+            console.error('Short URL not found in response:', result);
+        }
+        
+        // Set the full URL
+        const fullUrlElement = document.getElementById('fullUrl');
+        if (fullUrlElement && result.full_url) {
+            fullUrlElement.textContent = result.full_url;
+        }
+        
+        document.getElementById('result').classList.add('show');
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error generating link: ' + error.message);
+    }
+});
+        
+// Copy short URL
+window.copyShortUrl = function() {
+    const urlElement = document.getElementById('shortUrl');
+    const url = urlElement.textContent || urlElement.innerText;
+    if (url && url !== '#') {
+        navigator.clipboard.writeText(url);
+        // Show temporary feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => {
+            btn.textContent = originalText;
+        }, 1500);
+    } else {
+        alert('No short URL to copy yet. Generate a link first.');
+    }
+};
+
+// Copy full URL
+window.copyFullUrl = function() {
+    const url = document.getElementById('fullUrl').textContent;
+    if (url) {
+        navigator.clipboard.writeText(url);
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => {
+            btn.textContent = originalText;
+        }, 1500);
+    } else {
+        alert('No full URL to copy yet. Generate a link first.');
+    }
+};
+        
+        // Initial preview
+        previewUrl();
+
+           </script>
+</body>
+</html>
